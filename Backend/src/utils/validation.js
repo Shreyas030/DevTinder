@@ -12,5 +12,15 @@ const validateSignup = (req, res, next) => {
         throw new Error("Password is weak");
     }
 }
-module.exports = { validateSignup, }
- 
+const validateEditProfileData = (req) => {
+    const allowedUpdates = ["firstName", "lastName", "photoUrl", "gender", "age", "about", "skills"];
+
+    const updates = Object.keys(req.body);
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+        throw new Error("Invalid updates");
+    }
+    return isValidOperation;
+}
+module.exports = { validateSignup, validateEditProfileData }

@@ -1,5 +1,5 @@
-const express=require('express');
-const requestRouter=express.Router();
+const express = require('express');
+const requestRouter = express.Router();
 const { validateSignup } = require("../utils/validation");
 const User = require("../models/user");
 const bycrypt = require("bcrypt");
@@ -17,7 +17,6 @@ requestRouter.post("/signup", async (req, res) => {
         const { password, firstName, lastName, emailId } = req.body;
 
         const passwordHash = await bycrypt.hash(password, 10);
-        console.log(passwordHash);
 
         //creating a new instance of the User model
         const user = new User(
@@ -67,6 +66,16 @@ requestRouter.post("/login", async (req, res) => {
     }
 });
 
+//logout the user
+requestRouter.post("/logout", async (req, res) => {
+    // res.cookie("token", null, {
+    //     expires: new Date(Date.now()),
+
+    // });
+    res.clearCookie("token");
+    res.send("Logged out successfully");
+})
 
 
-module.exports=requestRouter;
+
+module.exports = requestRouter;
